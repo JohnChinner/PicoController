@@ -1,0 +1,93 @@
+## Make sure your Pico is running CircuitPython
+## Wire your N/O (Normally Open) buttons to the relevant GPIO pins, and 3v3.
+## Save as code.py on the pico and it will run on boot. You can test by opening notepad.
+## This is set up to operate the Space X docking sim https://iss-sim.spacex.com/
+
+import time
+import board
+import digitalio
+import usb_hid
+from adafruit_hid.keyboard import Keyboard
+from adafruit_hid.keycode import Keycode
+
+kbd = Keyboard(usb_hid.devices)
+
+# define buttons
+
+tlbutton = digitalio.DigitalInOut(board.GP10) ##Translate Left
+tlbutton.direction = digitalio.Direction.INPUT
+tlbutton.pull = digitalio.Pull.DOWN
+
+trbutton = digitalio.DigitalInOut(board.GP11) ##Translate Right
+trbutton.direction = digitalio.Direction.INPUT
+trbutton.pull = digitalio.Pull.DOWN
+
+tubutton = digitalio.DigitalInOut(board.GP12) ##Translate Up
+tubutton.direction = digitalio.Direction.INPUT
+tubutton.pull = digitalio.Pull.DOWN
+
+tdbutton = digitalio.DigitalInOut(board.GP13) ##Translate Down
+tdbutton.direction = digitalio.Direction.INPUT
+tdbutton.pull = digitalio.Pull.DOWN
+
+toutbutton = digitalio.DigitalInOut(board.GP14) ##Translate Out
+toutbutton.direction = digitalio.Direction.INPUT
+toutbutton.pull = digitalio.Pull.DOWN
+
+tinbutton = digitalio.DigitalInOut(board.GP15) ##Translate In
+tinbutton.direction = digitalio.Direction.INPUT
+tinbutton.pull = digitalio.Pull.DOWN
+
+ylbutton = digitalio.DigitalInOut(board.GP16) ##Yaw LEFT
+ylbutton.direction = digitalio.Direction.INPUT
+ylbutton.pull = digitalio.Pull.DOWN
+
+yrbutton = digitalio.DigitalInOut(board.GP17) ## Yaw RIGHT
+yrbutton.direction = digitalio.Direction.INPUT
+yrbutton.pull = digitalio.Pull.DOWN
+
+pubutton = digitalio.DigitalInOut(board.GP18) ##Pitch UP
+pubutton.direction = digitalio.Direction.INPUT
+pubutton.pull = digitalio.Pull.DOWN
+
+pdbutton = digitalio.DigitalInOut(board.GP19) ## Pitch DOWN
+pdbutton.direction = digitalio.Direction.INPUT
+pdbutton.pull = digitalio.Pull.DOWN
+
+rrbutton = digitalio.DigitalInOut(board.GP20) ## Roll RIGHT
+rrbutton.direction = digitalio.Direction.INPUT
+rrbutton.pull = digitalio.Pull.DOWN
+
+rlbutton = digitalio.DigitalInOut(board.GP21) ## Roll LEFT
+rlbutton.direction = digitalio.Direction.INPUT
+rlbutton.pull = digitalio.Pull.DOWN
+
+
+while True:
+    # button push keycodes
+    if tlbutton.value:
+        kbd.send(Keycode.A,)
+    if trbutton.value:
+        kbd.send(Keycode.D,)
+    if tubutton.value:
+        kbd.send(Keycode.W,)
+    if tdbutton.value:
+        kbd.send(Keycode.S,)
+    if toutbutton.value:
+        kbd.send(Keycode.Q,)
+    if tinbutton.value:
+        kbd.send(Keycode.E,)
+    if ylbutton.value:
+        kbd.send(Keycode.KEYPAD_FOUR,)
+    if yrbutton.value:
+        kbd.send(Keycode.KEYPAD_SIX,)
+    if pubutton.value:
+        kbd.send(Keycode.KEYPAD_EIGHT,)
+    if pdbutton.value:
+        kbd.send(Keycode.KEYPAD_FIVE,)
+    if rrbutton.value:
+        kbd.send(Keycode.KEYPAD_NINE,)
+    if rlbutton.value:
+        kbd.send(Keycode.KEYPAD_SEVEN,)
+
+    time.sleep(0.12)
